@@ -1,0 +1,228 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "io.github.microutils",
+    "module": "kotlin-logging",
+    "version": "2.0.10",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.6.1",
+      "buildId": "6ntghqi645gxvja6owebibj75q"
+    }
+  },
+  "variants": [
+    {
+      "name": "metadataApiElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-logging-metadata-2.0.10-all.jar",
+          "url": "kotlin-logging-2.0.10-all.jar",
+          "size": 8817,
+          "sha512": "0a2e9330ae97c9d6469a34955432e33c4b3185cd53599018c964dbda18349534022295bdb7c535fddcc27180b19a7f607a2e8ad96c49efcb14a62d6b69f3d038",
+          "sha256": "19e335f914670e6223da20909cafb831a741426249f5a4a420d4674bed196ffa",
+          "sha1": "d25a4e6ef933b52142d3fdb9ed18338403bc38de",
+          "md5": "5308b1d2b2df4ecd350191cdefab1096"
+        }
+      ]
+    },
+    {
+      "name": "commonMainMetadataElements",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.platform.type": "common"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.21"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-logging-2.0.10.jar",
+          "url": "kotlin-logging-2.0.10.jar",
+          "size": 2652,
+          "sha512": "02d1a32e67a52cc314a7346e51a50f0b4c3aa0df0d3662f28bf1cd4abfc2b4c01bdd009ee6dfcd5e66e16ea1a38231bacee607d4b1b6873842102f5ab663a9aa",
+          "sha256": "bd1a52e4141ee40ab998e885f3e30fbb2f29ee18f84644349616f2d2205858a0",
+          "sha1": "83f686a26d3c4f016dc26fd3fdc564b40ded621a",
+          "md5": "2fdeb317f5e9cf9a320f0a85fe714379"
+        }
+      ]
+    },
+    {
+      "name": "jsLegacyApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "legacy",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-js/2.0.10/kotlin-logging-js-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-js",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "jsLegacyRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "legacy",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-js/2.0.10/kotlin-logging-js-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-js",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "jsIrApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-js/2.0.10/kotlin-logging-js-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-js",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "jsIrRuntimeElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-runtime",
+        "org.jetbrains.kotlin.js.compiler": "ir",
+        "org.jetbrains.kotlin.platform.type": "js"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-js/2.0.10/kotlin-logging-js-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-js",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-jvm/2.0.10/kotlin-logging-jvm-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-jvm",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-jvm/2.0.10/kotlin-logging-jvm-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-jvm",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "linuxX64ApiElements-published",
+      "attributes": {
+        "artifactType": "org.jetbrains.kotlin.klib",
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "linux_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-linuxx64/2.0.10/kotlin-logging-linuxx64-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-linuxx64",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "macosX64ApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "macos_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-macosx64/2.0.10/kotlin-logging-macosx64-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-macosx64",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "macosX64MetadataElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "macos_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-macosx64/2.0.10/kotlin-logging-macosx64-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-macosx64",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "mingwX64ApiElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-api",
+        "org.jetbrains.kotlin.native.target": "mingw_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-mingwx64/2.0.10/kotlin-logging-mingwx64-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-mingwx64",
+        "version": "2.0.10"
+      }
+    },
+    {
+      "name": "mingwX64MetadataElements-published",
+      "attributes": {
+        "org.gradle.usage": "kotlin-metadata",
+        "org.jetbrains.kotlin.native.target": "mingw_x64",
+        "org.jetbrains.kotlin.platform.type": "native"
+      },
+      "available-at": {
+        "url": "../../kotlin-logging-mingwx64/2.0.10/kotlin-logging-mingwx64-2.0.10.module",
+        "group": "io.github.microutils",
+        "module": "kotlin-logging-mingwx64",
+        "version": "2.0.10"
+      }
+    }
+  ]
+}

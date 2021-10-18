@@ -1,0 +1,90 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "url": "../../kotlin-result/1.1.12/kotlin-result-1.1.12.module",
+    "group": "com.michael-bull.kotlin-result",
+    "module": "kotlin-result",
+    "version": "1.1.12",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.3",
+      "buildId": "npqczmvyurerzewqlxdiyythf4"
+    }
+  },
+  "variants": [
+    {
+      "name": "jvmApiElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-result-jvm-1.1.12.jar",
+          "url": "kotlin-result-jvm-1.1.12.jar",
+          "size": 41360,
+          "sha512": "b711e9a9988b5a04a3783a903b6b27993e2c8d2ae1e974371a371e9e2fbecd1589c0ef6b716527429cc0aa590f3706a97ca80b1c5d8f23cbf0480c0f7fe5a584",
+          "sha256": "240fba30afb24bafd8f17f2e10621d6adecdb765e6aa90e3c19411d1d23ac229",
+          "sha1": "30d86417e6237a72a9cdbcadf531f63834069b9a",
+          "md5": "3a94ae2eaf5e90454ec6cac863c7c99f"
+        }
+      ]
+    },
+    {
+      "name": "jvmRuntimeElements-published",
+      "attributes": {
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-jdk8",
+          "version": {
+            "requires": "1.5.10"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib-common",
+          "version": {
+            "requires": "1.5.10"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "kotlin-result-jvm-1.1.12.jar",
+          "url": "kotlin-result-jvm-1.1.12.jar",
+          "size": 41360,
+          "sha512": "b711e9a9988b5a04a3783a903b6b27993e2c8d2ae1e974371a371e9e2fbecd1589c0ef6b716527429cc0aa590f3706a97ca80b1c5d8f23cbf0480c0f7fe5a584",
+          "sha256": "240fba30afb24bafd8f17f2e10621d6adecdb765e6aa90e3c19411d1d23ac229",
+          "sha1": "30d86417e6237a72a9cdbcadf531f63834069b9a",
+          "md5": "3a94ae2eaf5e90454ec6cac863c7c99f"
+        }
+      ]
+    }
+  ]
+}
