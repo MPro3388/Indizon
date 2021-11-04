@@ -1,0 +1,177 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "au.com.dius.pact.core",
+    "module": "support",
+    "version": "4.2.14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.3",
+      "buildId": "m4qqoikneffwnayeffkuhz2lda"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.antlr",
+          "module": "antlr4",
+          "version": {
+            "requires": "4.9.2"
+          }
+        },
+        {
+          "group": "io.github.microutils",
+          "module": "kotlin-logging",
+          "version": {
+            "requires": "2.0.10"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.apache.httpcomponents",
+          "module": "httpclient",
+          "version": {
+            "requires": "4.5.13"
+          }
+        },
+        {
+          "group": "com.michael-bull.kotlin-result",
+          "module": "kotlin-result",
+          "version": {
+            "requires": "1.1.12"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "support-4.2.14.jar",
+          "url": "support-4.2.14.jar",
+          "size": 188572,
+          "sha512": "bdc9aad9591579caa1ffe7327d3849fe232b63ec509d0674c6446baf9d637f751a9c61a5ef6f4f0957e5e8231742b89bd6ae98db808bd993aa0dbfa1cce7c41a",
+          "sha256": "8b72ee56cbf8450adcd31d3390a8ec306275f80ff9ef0414daec352ff13ae360",
+          "sha1": "4633e0c49a8345e997f6f6669595e68846658727",
+          "md5": "2c8c6be3b21062aeb95f495df8542d7f"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.apache.commons",
+          "module": "commons-lang3",
+          "version": {
+            "requires": "3.4"
+          }
+        },
+        {
+          "group": "com.google.code.findbugs",
+          "module": "jsr305",
+          "version": {
+            "requires": "3.0.2"
+          }
+        },
+        {
+          "group": "org.antlr",
+          "module": "antlr4",
+          "version": {
+            "requires": "4.9.2"
+          }
+        },
+        {
+          "group": "io.github.microutils",
+          "module": "kotlin-logging",
+          "version": {
+            "requires": "2.0.10"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.apache.httpcomponents",
+          "module": "httpclient",
+          "version": {
+            "requires": "4.5.13"
+          }
+        },
+        {
+          "group": "com.michael-bull.kotlin-result",
+          "module": "kotlin-result",
+          "version": {
+            "requires": "1.1.12"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "support-4.2.14.jar",
+          "url": "support-4.2.14.jar",
+          "size": 188572,
+          "sha512": "bdc9aad9591579caa1ffe7327d3849fe232b63ec509d0674c6446baf9d637f751a9c61a5ef6f4f0957e5e8231742b89bd6ae98db808bd993aa0dbfa1cce7c41a",
+          "sha256": "8b72ee56cbf8450adcd31d3390a8ec306275f80ff9ef0414daec352ff13ae360",
+          "sha1": "4633e0c49a8345e997f6f6669595e68846658727",
+          "md5": "2c8c6be3b21062aeb95f495df8542d7f"
+        }
+      ]
+    }
+  ]
+}

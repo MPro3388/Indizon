@@ -1,0 +1,212 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "au.com.dius.pact.provider",
+    "module": "scalasupport_2.13",
+    "version": "4.2.14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.3",
+      "buildId": "m4qqoikneffwnayeffkuhz2lda"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "model",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact",
+          "module": "provider",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "org.scala-lang",
+          "module": "scala-library",
+          "version": {
+            "requires": "2.13.2"
+          }
+        },
+        {
+          "group": "com.typesafe.scala-logging",
+          "module": "scala-logging_2.13",
+          "version": {
+            "requires": "3.9.2"
+          },
+          "excludes": [
+            {
+              "group": "org.scala-lang",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.scala-lang.modules",
+          "module": "scala-java8-compat_2.13",
+          "version": {
+            "requires": "0.9.1"
+          }
+        },
+        {
+          "group": "org.asynchttpclient",
+          "module": "async-http-client",
+          "version": {
+            "requires": "2.1.0-alpha24"
+          }
+        },
+        {
+          "group": "ws.unfiltered",
+          "module": "unfiltered-netty-server_2.13",
+          "version": {
+            "requires": "0.10.0-M8"
+          },
+          "excludes": [
+            {
+              "group": "org.scala-lang",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "scalasupport_2.13-4.2.14.jar",
+          "url": "scalasupport_2.13-4.2.14.jar",
+          "size": 39369,
+          "sha512": "ecc81e6af6cffd1fcc20b60813008dd65c9f37f1c09e40a0d1db9f5249a456df5e44b25908da0572f31f2c1f94c9c0b4052588289e59a8a114c42a374974d49e",
+          "sha256": "6fb2a46b94b07e21bbeb9c1a9c4d414c2c6a9c0e3f9cfe24a35329bdc02bb054",
+          "sha1": "2b9a3d8ddcdfc780bdf72c0fc3a81874288593b8",
+          "md5": "e5b462df4d3f0fa9ebb379199c12a597"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.scalatest",
+          "module": "scalatest_2.13",
+          "version": {
+            "requires": "3.1.2"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "model",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact",
+          "module": "provider",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "org.scala-lang",
+          "module": "scala-library",
+          "version": {
+            "requires": "2.13.2"
+          }
+        },
+        {
+          "group": "com.typesafe.scala-logging",
+          "module": "scala-logging_2.13",
+          "version": {
+            "requires": "3.9.2"
+          },
+          "excludes": [
+            {
+              "group": "org.scala-lang",
+              "module": "*"
+            }
+          ]
+        },
+        {
+          "group": "org.scala-lang.modules",
+          "module": "scala-java8-compat_2.13",
+          "version": {
+            "requires": "0.9.1"
+          }
+        },
+        {
+          "group": "org.asynchttpclient",
+          "module": "async-http-client",
+          "version": {
+            "requires": "2.1.0-alpha24"
+          }
+        },
+        {
+          "group": "ws.unfiltered",
+          "module": "unfiltered-netty-server_2.13",
+          "version": {
+            "requires": "0.10.0-M8"
+          },
+          "excludes": [
+            {
+              "group": "org.scala-lang",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "scalasupport_2.13-4.2.14.jar",
+          "url": "scalasupport_2.13-4.2.14.jar",
+          "size": 39369,
+          "sha512": "ecc81e6af6cffd1fcc20b60813008dd65c9f37f1c09e40a0d1db9f5249a456df5e44b25908da0572f31f2c1f94c9c0b4052588289e59a8a114c42a374974d49e",
+          "sha256": "6fb2a46b94b07e21bbeb9c1a9c4d414c2c6a9c0e3f9cfe24a35329bdc02bb054",
+          "sha1": "2b9a3d8ddcdfc780bdf72c0fc3a81874288593b8",
+          "md5": "e5b462df4d3f0fa9ebb379199c12a597"
+        }
+      ]
+    }
+  ]
+}

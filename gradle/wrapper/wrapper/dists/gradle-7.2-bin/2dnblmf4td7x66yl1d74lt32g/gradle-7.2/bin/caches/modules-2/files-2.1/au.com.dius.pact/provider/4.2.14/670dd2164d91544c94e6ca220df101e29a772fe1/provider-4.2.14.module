@@ -1,0 +1,242 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "au.com.dius.pact",
+    "module": "provider",
+    "version": "4.2.14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.3",
+      "buildId": "m4qqoikneffwnayeffkuhz2lda"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "commons-io",
+          "module": "commons-io",
+          "version": {
+            "requires": "2.5"
+          }
+        },
+        {
+          "group": "org.apache.httpcomponents",
+          "module": "httpclient",
+          "version": {
+            "requires": "4.5.13"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "model",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "pactbroker",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "matchers",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "support",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "io.github.classgraph",
+          "module": "classgraph",
+          "version": {
+            "requires": "4.8.105"
+          }
+        },
+        {
+          "group": "com.michael-bull.kotlin-result",
+          "module": "kotlin-result",
+          "version": {
+            "requires": "1.1.12"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "provider-4.2.14.jar",
+          "url": "provider-4.2.14.jar",
+          "size": 352933,
+          "sha512": "d214ee0bc538b1bccc271c377bbbdc0189654d82aedec6a273ed720d925ecc7a6d47dafb1131d708b01421d0049aba1636939c2f92e6b44aeb19091a90cd691f",
+          "sha256": "363010a744c58acc49b477f7cdd1f1d2fcfca407cf6b4c08937c8db9e66fb97b",
+          "sha1": "ff2e407980ad3e552f66aca22d2d6b12406305de",
+          "md5": "89b818f8d6299243801cea2cfdd0aa76"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.slf4j",
+          "module": "slf4j-api",
+          "version": {
+            "requires": "1.7.28"
+          }
+        },
+        {
+          "group": "org.codehaus.groovy",
+          "module": "groovy",
+          "version": {
+            "requires": "3.0.7"
+          }
+        },
+        {
+          "group": "com.github.ajalt",
+          "module": "mordant",
+          "version": {
+            "requires": "1.2.1"
+          }
+        },
+        {
+          "group": "com.vladsch.flexmark",
+          "module": "flexmark",
+          "version": {
+            "requires": "0.62.2"
+          }
+        },
+        {
+          "group": "com.vladsch.flexmark",
+          "module": "flexmark-ext-tables",
+          "version": {
+            "requires": "0.62.2"
+          }
+        },
+        {
+          "group": "commons-io",
+          "module": "commons-io",
+          "version": {
+            "requires": "2.5"
+          }
+        },
+        {
+          "group": "org.apache.httpcomponents",
+          "module": "httpclient",
+          "version": {
+            "requires": "4.5.13"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "model",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "pactbroker",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "matchers",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.core",
+          "module": "support",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "io.github.classgraph",
+          "module": "classgraph",
+          "version": {
+            "requires": "4.8.105"
+          }
+        },
+        {
+          "group": "com.michael-bull.kotlin-result",
+          "module": "kotlin-result",
+          "version": {
+            "requires": "1.1.12"
+          },
+          "excludes": [
+            {
+              "group": "org.jetbrains.kotlin",
+              "module": "*"
+            }
+          ]
+        }
+      ],
+      "files": [
+        {
+          "name": "provider-4.2.14.jar",
+          "url": "provider-4.2.14.jar",
+          "size": 352933,
+          "sha512": "d214ee0bc538b1bccc271c377bbbdc0189654d82aedec6a273ed720d925ecc7a6d47dafb1131d708b01421d0049aba1636939c2f92e6b44aeb19091a90cd691f",
+          "sha256": "363010a744c58acc49b477f7cdd1f1d2fcfca407cf6b4c08937c8db9e66fb97b",
+          "sha1": "ff2e407980ad3e552f66aca22d2d6b12406305de",
+          "md5": "89b818f8d6299243801cea2cfdd0aa76"
+        }
+      ]
+    }
+  ]
+}

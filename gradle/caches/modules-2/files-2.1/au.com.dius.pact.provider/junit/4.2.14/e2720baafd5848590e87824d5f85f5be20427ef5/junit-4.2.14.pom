@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <!-- This module was also published with a richer model, Gradle metadata,  -->
+  <!-- which should be used instead. Do not delete the following line which  -->
+  <!-- is to indicate to Gradle or any Gradle module metadata file consumer  -->
+  <!-- that they should prefer consuming it instead. -->
+  <!-- do_not_remove: published-with-gradle-metadata -->
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>au.com.dius.pact.provider</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.2.14</version>
+  <name>junit</name>
+  <description># Pact junit runner
+
+## Dependency
+
+The library is available on maven central using:
+
+* group-id = `au.com.dius.pact.provider`
+* artifact-id = `junit`
+* version-id = `4.1.x`
+
+
+## Overview
+Library provides ability to play contract tests against a provider service in JUnit fashionable way.
+
+Supports:
+
+- Out-of-the-box convenient ways to load pacts
+
+- Easy way to change assertion strategy
+
+- **org.junit.BeforeClass**, **org.junit.AfterClass** and **org.junit.ClassRule** JUnit annotations, that will be run
+once - before/after whole contract test suite.
+
+- **org.junit.Before**, **org.junit.After** and **org.junit.Rule** JUnit annotations, that will be run before/after
+each test of an interaction.
+
+- **au.com.dius.pact.provider.junit.State** custom annotation - before each interaction that requires a state change,
+all methods annotated by `@State` with appropriate the state listed will be invoked. These methods must either take
+no parameters or a single Map parameter.
+
+## Example of HTTP test
+
+```java
+    @RunWith(PactRunner.class) // Say JUnit to run tests with custom Runner
+    @Provider(&amp;quot;myAwesomeService&amp;quot;) // Set up name of tested provider
+    @PactFolder(&amp;quot;pacts&amp;quot;) // Point where to find pacts (See also section Pacts source in documentation)
+    public class ContractTest {
+        // NOTE: this is just an example of embedded service that listens to requests, you should start here real service
+        @ClassRule //Rule will be applied once: before/after whole contract test suite
+        public static final ClientDriverRule embeddedService = new ClientDriverRule(8332);
+
+        @BeforeClass //Method will be run once: before whole contract test suite
+        public static void setUpService() {
+            //Run DB, create schema
+            //Run service
+            //...
+        }
+
+        @Before //Method will be run before each test of interaction
+        public void before() {
+            // Rest data
+            // Mock dependent service responses
+            // ...
+            embeddedService.addExpectation(
+                    onRequestTo(&amp;quot;/data&amp;quot;), giveEmptyResponse()
+            );
+        }
+
+        @State({&amp;quot;default&amp;quot;, &amp;quot;no-data&amp;quot;}) // Method will be run before testing interactions that require &amp;quot;default&amp;quot; or &amp;quot;no-data&amp;quot; state
+        public void toDefaultState() {
+            // Prepare service before interaction that require &amp;quot;default&amp;quot; state
+            // ...
+            System.out.println(&amp;quot;Now service in default state&amp;quot;);
+        }
+        
+        @State(&amp;quot;with-data&amp;quot;) // Method will be run before testing interactions that require &amp;quot;with-data&amp;quot; state
+        public void toStateWithData(Map data) {
+            // Prepare service before interaction that require &amp;quot;with-data&amp;quot; state. The provider state data will be passed 
+            // in the data parameter
+            // ...
+            System.out.println(&amp;quot;Now service in state using data &amp;quot; + data);
+        }
+
+        @TestTarget // Annotation denotes Target that will be used for tests
+        public final Target target = new HttpTarget(8332); // Out-of-the-box implementation of Target (for more information take a look at Test Target section)
+    }
+```
+
+## Example of Message test
+
+```java
+    @RunWith(PactRunner.class) // Say JUnit to run tests with custom Runner
+    @Provider(&amp;quot;myAwesomeService&amp;quot;) // Set up name of tested provider
+    @PactBroker(host=&amp;quot;pactbroker&amp;quot;, port = &amp;quot;80&amp;quot;) 
+    public class ConfirmationKafkaContractTest {
+
+        @TestTarget // Annotation denotes Target that will be used for tests
+        public final Target target = new MessageTarget(); // Out-of-the-box implementation of Target (for more information take a look at Test Target section)
+
+        @BeforeClass //Method will be run once: before whole contract test suite
+        public static void setUpService() {
+            //Run DB, create schema
+            //Run service
+            //...
+        }
+
+        @Before //Method will be run before each test of interaction
+        public void before() {
+            // Message data preparation
+            // ...
+        }
+
+        @PactVerifyProvider(&amp;apos;an order confirmation message&amp;apos;)
+        String verifyMessageForOrder() {
+            Order order = new Order()
+            order.setId(10000004)
+            order.setPrice(BigDecimal.TEN)
+            order.setUnits(15)
+
+            def message = new ConfirmationKafkaMessageBuilder()
+              .withOrder(order)
+              .build()
+
+            JsonOutput.toJson(message)
+        }
+
+    }
+```
+
+### Example of Message test that verifies metadata
+
+To have the message metadata - such as the topic - also verified you need to return a `MessageAndMetadata` from 
+the invoked method that contains the payload and metadata to be validation. For example, to verify the metadata of an 
+integration using the Spring [Message](https://docs.spring.io/spring-integration/reference/html/message.html) interface, 
+you can do something like the following:
+
+```java
+  ...
+
+  @PactVerifyProvider(&amp;quot;a product event update&amp;quot;)
+  public MessageAndMetadata verifyMessageForOrder() {
+    ProductEvent product = new ProductEvent(&amp;quot;id1&amp;quot;, &amp;quot;product name&amp;quot;, &amp;quot;product type&amp;quot;, &amp;quot;v1&amp;quot;, EventType.CREATED);
+    Message&amp;lt;String&amp;gt; message = new ProductMessageBuilder().withProduct(product).build();
+
+    return generateMessageAndMetadata(message);
+  }
+
+  private MessageAndMetadata generateMessageAndMetadata(Message&amp;lt;String&amp;gt; message) {
+    HashMap&amp;lt;String, Object&amp;gt; metadata = new HashMap&amp;lt;String, Object&amp;gt;();
+    message.getHeaders().forEach((k, v) -&amp;gt; metadata.put(k, v));
+
+    return new MessageAndMetadata(message.getPayload().getBytes(), metadata);
+  }
+```
+
+_NOTE: this requires you to add medadata expections in your consumer test_
+
+## Provider state callback methods
+
+For the provider states in the pact being verified, you can define methods to be invoked to setup the correct state
+for each interaction. Just annotate a method with the `au.com.dius.pact.provider.junit.State` annotation and the
+method will be invoked before the interaction is verified.
+
+For example:
+
+```java
+@State(&amp;quot;SomeProviderState&amp;quot;) // Must match the state description in the pact file
+public void someProviderState() {
+  // Do what you need to set the correct state
+}
+```
+
+If there are parameters in the pact file, just add a Map parameter to the method to be able to access those parameters.
+
+```java
+@State(&amp;quot;SomeProviderState&amp;quot;)
+public void someProviderState(Map&amp;lt;String, Object&amp;gt; providerStateParameters) {
+  // Do what you need to set the correct state
+}
+```
+
+### Provider state teardown methods
+
+If you need to tear down your provider state, you can annotate a method with the `@State` annotation with the action
+set to `StateChangeAction.TEARDOWN` and it will be invoked after the interaction is verified.
+
+```java
+@State(&amp;quot;SomeProviderState&amp;quot;, action = StateChangeAction.TEARDOWN)
+public void someProviderStateCleanup() {
+  // Do what you need to to teardown the state
+}
+```
+
+#### Returning values that can be injected
+
+You can have values from the provider state callbacks be injected into most places (paths, query parameters, headers,
+bodies, etc.). This works by using the V3 spec generators with provider state callbacks that return values. One example
+of where this would be useful is API calls that require an ID which would be auto-generated by the database on the
+provider side, so there is no way to know what the ID would be beforehand.
+
+There are methods on the consumer DSLs that can provider an expression that contains variables (like &amp;apos;/api/user/${id}&amp;apos;
+for the path). The provider state callback can then return a map for values, and the `id` attribute from the map will
+be expanded in the expression. For this to work, just make your provider state method return a Map of the values.
+
+### Using multiple classes for the state change methods
+
+If you have a large number of state change methods, you can split things up by moving them to other classes. There are
+two ways you can do this:
+
+#### Use interfaces
+
+You can put the state change methods on interfaces and then have your test class implement those interfaces. 
+See [StateAnnotationsOnInterfaceTest](https://github.com/DiUS/pact-jvm/blob/master/provider/junit/src/test/java/au/com/dius/pact/provider/junit/StateAnnotationsOnInterfaceTest.java)
+for an example.
+
+#### Specify the additional classes on the test target
+
+You can provide the additional classes to the test target with the `withStateHandler` or `setStateHandlers` methods. See
+[BooksPactProviderTest](https://github.com/DiUS/pact-jvm/blob/master/provider/spring/src/test/java/au/com/dius/pact/provider/spring/BooksPactProviderTest.java) for an example. 
+
+## Pact source
+
+The Pact runner will automatically collect pacts based on annotations on the test class. For this purpose there are 3
+out-of-the-box options (files from a directory, files from a set of URLs or a pact broker) or you can easily add your
+own Pact source.
+
+If you need to load a single pact file from the file system, use the `PactUrl` with the URL set to the file path.
+
+**Note:** You can only define one source of pacts per test class.
+
+### Download pacts from a pact-broker
+
+To use pacts from a Pact Broker, annotate the test class with `@PactBroker(host=&amp;quot;host.of.pact.broker.com&amp;quot;, port = &amp;quot;80&amp;quot;)`.
+
+You can also specify the protocol, which defaults to &amp;quot;http&amp;quot;.
+
+The pact broker will be queried for all pacts with the same name as the provider annotation.
+
+For example, test all pacts for the &amp;quot;Activity Service&amp;quot; in the pact broker:
+
+```java
+@RunWith(PactRunner.class)
+@Provider(&amp;quot;Activity Service&amp;quot;)
+@PactBroker(host = &amp;quot;localhost&amp;quot;, port = &amp;quot;80&amp;quot;)
+public class PactJUnitTest {
+
+  @TestTarget
+  public final Target target = new HttpTarget(5050);
+
+}
+```
+
+#### Using Java System properties
+
+The pact broker loader was updated to allow system properties to be used for the hostname, port or protocol. The port
+was changed to a string to allow expressions to be set.
+
+To use a system property or environment variable, you can place the property name in `${}` expression de-markers:
+
+```java
+@PactBroker(host=&amp;quot;${pactbroker.hostname}&amp;quot;, port = &amp;quot;80&amp;quot;)
+```
+
+You can provide a default value by separating the property name with a colon (`:`):
+
+```java
+@PactBroker(host=&amp;quot;${pactbroker.hostname:localhost}&amp;quot;, port = &amp;quot;80&amp;quot;)
+```
+
+#### More Java System properties
+
+The default values of the `@PactBroker` annotation now enable variable interpolation.
+The following keys may be managed through the environment
+* `pactbroker.host`
+* `pactbroker.port`
+* `pactbroker.scheme`
+* `pactbroker.tags` (comma separated)
+* `pactbroker.auth.username` (for basic auth)
+* `pactbroker.auth.password` (for basic auth)
+* `pactbroker.auth.token` (for bearer auth)
+* `pactbroker.consumers` (comma separated list to filter pacts by consumer; if not provided, will fetch all pacts for the provider)
+
+
+#### Using tags with the pact broker
+
+The pact broker allows different versions to be tagged. To load all the pacts:
+
+```java
+@PactBroker(host=&amp;quot;pactbroker&amp;quot;, port = &amp;quot;80&amp;quot;, tags = {&amp;quot;latest&amp;quot;, &amp;quot;dev&amp;quot;, &amp;quot;prod&amp;quot;})
+```
+
+The default value for tags is `latest` which is not actually a tag but instead corresponds to the latest version ignoring the tags. If there are multiple consumers matching the name specified in the provider annotation then the latest pact for each of the consumers is loaded.
+
+For any other value the latest pact tagged with the specified tag is loaded.
+
+Specifying multiple tags is an OR operation. For example if you specify `tags = {&amp;quot;dev&amp;quot;, &amp;quot;prod&amp;quot;}` then both the latest pact file tagged with `dev` and the latest pact file taggged with `prod` is loaded.
+
+In 4.1.4+, tags was deprecated in favor of consumerVersionSelectors. Consumer version selectors give you the ability to 
+include pacts for the latest version of a tag, or all versions of a tag.
+
+```java
+@PactBroker(
+  host=&amp;quot;pactbroker&amp;quot;, 
+  port=&amp;quot;80&amp;quot;, 
+  consumerVersionSelectors={
+    @ConsumerVersionSelector(tag = &amp;quot;dev&amp;quot;), // Verify the latest version tagged with dev
+    @ConsumerVersionSelector(tag = &amp;quot;prod&amp;quot;, latest = &amp;quot;false&amp;quot;) // Verify all versions tagged with prod
+  }
+)
+```
+
+#### Using authentication with the pact broker
+
+You can use basic authentication with the `@PactBroker` annotation by setting the `authentication` value to a `@PactBrokerAuth`
+annotation. For example:
+
+```java
+@PactBroker(host = &amp;quot;${pactbroker.url:localhost}&amp;quot;, port = &amp;quot;1234&amp;quot;, tags = {&amp;quot;latest&amp;quot;, &amp;quot;prod&amp;quot;, &amp;quot;dev&amp;quot;},
+  authentication = @PactBrokerAuth(username = &amp;quot;test&amp;quot;, password = &amp;quot;test&amp;quot;))
+```
+
+Bearer tokens are also supported. For example:
+
+```java
+@PactBroker(host = &amp;quot;${pactbroker.url:localhost}&amp;quot;, port = &amp;quot;1234&amp;quot;, tags = {&amp;quot;latest&amp;quot;, &amp;quot;prod&amp;quot;, &amp;quot;dev&amp;quot;},
+  authentication = @PactBrokerAuth(token = &amp;quot;test&amp;quot;))
+```
+
+The `token`, `username` and `password` values also take Java system property expressions.
+
+Preemptive Authentication can be enabled by setting the `pact.pactbroker.httpclient.usePreemptiveAuthentication` Java
+system property to `true`.
+
+### Allowing just the changed pact specified in a webhook to be verified [4.0.6+]
+
+When a consumer publishes a new version of a pact file, the Pact broker can fire off a webhook with the URL of the changed 
+pact file. To allow only the changed pact file to be verified, you can override the URL by adding the annotation 
+`@AllowOverridePactUrl` to your test class and then setting using the `pact.filter.consumers` and `pact.filter.pacturl` 
+values as either Java system properties or environment variables. If you have annotated your test class with `@Consumer`
+you don&amp;apos;t need to provide `pact.filter.consumers`.
+
+### Pact Url
+
+To use pacts from urls annotate the test class with
+
+```java
+@PactUrl(urls = {&amp;quot;http://build.server/zoo_app-animal_service.json&amp;quot;})
+```
+
+If you need to load a single pact file from the file system, you can use the `PactUrl` with the URL set to the file path.
+
+For authenticated URLs, specify the authentication on the annotation
+
+```java
+@PactUrl(urls = {&amp;quot;http://build.server/zoo_app-animal_service.json&amp;quot;}, authentication = @Authentication(token = &amp;quot;1234ABCD&amp;quot;))
+```
+
+You can use either bearer token scheme (by setting the `token`), or basic auth by setting the `username` and `password`.
+
+JVM system properties or environment variables can also be used by placing the property/variable name in `${}` expressions.
+
+```java
+@PactUrl(urls = {&amp;quot;http://build.server/zoo_app-animal_service.json&amp;quot;}, authentication = @Authentication(token = &amp;quot;${TOKEN}&amp;quot;))
+```
+
+### Pact folder
+
+To use pacts from a resource folder of the project annotate test class with
+
+```java
+@PactFolder(&amp;quot;subfolder/in/resource/directory&amp;quot;)
+```
+
+### Custom pacts source
+
+It&amp;apos;s possible to use a custom Pact source. For this, implement interface `au.com.dius.pact.provider.junit.loader.PactLoader`
+and annotate the test class with `@PactSource(MyOwnPactLoader.class)`. **Note:** class `MyOwnPactLoader` must have a default empty constructor or a constructor with one argument of class `Class` which at runtime will be the test class so you can get custom annotations of test class.
+
+### Filtering the interactions that are verified
+
+By default, the pact runner will verify all pacts for the given provider. You can filter the pacts and interactions by
+the following methods.
+
+#### Filtering by Consumer
+
+You can run only those pacts for a particular consumer by adding a `@Consumer` annotation to the test class.
+
+For example:
+
+```java
+@RunWith(PactRunner.class)
+@Provider(&amp;quot;Activity Service&amp;quot;)
+@Consumer(&amp;quot;Activity Consumer&amp;quot;)
+@PactBroker(host = &amp;quot;localhost&amp;quot;, port = &amp;quot;80&amp;quot;)
+public class PactJUnitTest {
+
+  @TestTarget
+  public final Target target = new HttpTarget(5050);
+
+}
+```
+
+#### Interaction Filtering
+
+You can filter the interactions that are executed by adding a `@PactFilter` annotation to your test class. The pact 
+filter annotation will then only verify interactions that have a matching value, by default provider state.
+You can provide multiple values to match with.
+
+The filter criteria is defined by the filter property. The filter must implement the
+`au.com.dius.pact.provider.junit.filter.InteractionFilter` interface. Also check the `InteractionFilter` interface
+for default filter implementations.
+
+For example: 
+
+```java
+@RunWith(PactRunner.class)
+@PactFilter(&amp;quot;Activity 100 exists in the database&amp;quot;)
+public class PactJUnitTest {
+
+}
+```
+
+You can also use regular expressions with the filter. For example:
+
+```java
+@RunWith(PactRunner.class)
+@PactFilter(values = {&amp;quot;^\\/somepath.*&amp;quot;}, filter = InteractionFilter.ByRequestPath.class)
+public class PactJUnitTest {
+
+}
+```
+
+**NOTE!** You will only be able to publish the verification results if all interactions have been verified. If an interaction is not covered because it was filtered out, you will not be able to publish.
+
+##### Filtering the interactions that are run
+
+**(version 4.1.2+)**
+
+You can filter the interactions that are run by setting the JVM system property `pact.filter.description`. This propery
+takes a regular expression to match against the interaction description.
+
+**NOTE!** this property needs to be set on the test JVM if your build is running with Gradle or Maven. 
+
+### Setting the test to not fail when no pacts are found
+
+By default the pact runner will fail the verification test if no pact files are found to verify. To change the
+failure into a warning, add a `@IgnoreNoPactsToVerify` annotation to your test class.
+
+#### Ignoring IO errors loading pact files
+
+You can also set the test to ignore any IO and parser exceptions when loading the pact files by setting the
+`ignoreIoErrors` attribute on the annotation to `&amp;quot;true&amp;quot;` or setting the JVM system property `pact.verification.ignoreIoErrors`
+to `true`.
+
+** WARNING! Do not enable this on your CI server, as this could result in your build passing with no providers 
+having been verified due to a configuration error. **        
+
+### Overriding the handling of a body data type
+
+**NOTE: version 4.1.3+**
+
+By default, bodies will be handled based on their content types. For binary contents, the bodies will be base64
+encoded when written to the Pact file and then decoded again when the file is loaded. You can change this with
+an override property: `pact.content_type.override.&amp;lt;TYPE&amp;gt;.&amp;lt;SUBTYPE&amp;gt;=text|json|binary`. For instance, setting 
+`pact.content_type.override.application.pdf=text` will treat PDF bodies as a text type and not encode/decode them.
+
+### Controlling the generation of diffs
+
+**NOTE: version 4.2.7+**
+
+When there are mismatches with large bodies the calculation of the diff can take a long time . You can turn off the 
+generation of the diffs with the JVM system property: `pact.verifier.generateDiff=true|false|&amp;lt;dataSize&amp;gt;`, where 
+`dataSize`, if specified, must be a valid data size (for instance `100kb` or `1mb`). This will turn off the diff
+calculation for payloads that exceed this size. 
+
+For instance, setting `pact.verifier.generateDiff=false` will turn off the generation of diffs for all bodies, while
+`pact.verifier.generateDiff=512kb` will only turn off the diffs if the actual or expected body is larger than 512kb.
+
+## Test target
+
+The field in test class of type `au.com.dius.pact.provider.junit.target.Target` annotated with `au.com.dius.pact.provider.junit.target.TestTarget`
+will be used for actual Interaction execution and asserting of contract.
+
+**Note:** there must be exactly 1 such field, otherwise an `InitializationException` will be thrown.
+
+### HttpTarget
+
+`au.com.dius.pact.provider.junit.target.HttpTarget` - out-of-the-box implementation of `au.com.dius.pact.provider.junit.target.Target`
+that will play pacts as http request and assert response from service by matching rules from pact.
+
+You can also specify the protocol, defaults to &amp;quot;http&amp;quot;.
+
+### MessageTarget
+
+`au.com.dius.pact.provider.junit.target.MessageTarget` - out-of-the-box implementation of `au.com.dius.pact.provider.junit.target.Target`
+that will play pacts as an message and assert response from service by matching rules from pact.
+
+**Note for Maven users:** If you use Maven to run your tests, you will have to make sure that the Maven Surefire plugin is at least
+  version 2.22.1 uses an isolated classpath.
+
+For example, configure it by adding the following to your POM: 
+
+```xml
+&amp;lt;plugin&amp;gt;
+    &amp;lt;groupId&amp;gt;org.apache.maven.plugins&amp;lt;/groupId&amp;gt;
+    &amp;lt;artifactId&amp;gt;maven-surefire-plugin&amp;lt;/artifactId&amp;gt;
+    &amp;lt;version&amp;gt;2.22.1&amp;lt;/version&amp;gt;
+    &amp;lt;configuration&amp;gt;
+        &amp;lt;useSystemClassLoader&amp;gt;false&amp;lt;/useSystemClassLoader&amp;gt;
+    &amp;lt;/configuration&amp;gt;
+&amp;lt;/plugin&amp;gt;
+```
+
+#### Modifying the requests before they are sent
+
+**NOTE: `@TargetRequestFilter` is only for JUnit 4. For JUnit 5 see [JUnit 5 docs](/provider/junit5/README.md#modifying-the-requests-before-they-are-sent).**
+
+Sometimes you may need to add things to the requests that can&amp;apos;t be persisted in a pact file. Examples of these would
+be authentication tokens, which have a small life span. The HttpTarget supports request filters by annotating methods
+on the test class with `@TargetRequestFilter`. These methods must be public void methods that take a single HttpRequest
+parameter.
+
+For example:
+
+```java
+    @TargetRequestFilter
+    public void exampleRequestFilter(HttpRequest request) {
+      request.addHeader(&amp;quot;Authorization&amp;quot;, &amp;quot;OAUTH hdsagasjhgdjashgdah...&amp;quot;);
+    }
+```
+
+__*Important Note:*__ You should only use this feature for things that can not be persisted in the pact file. By modifying
+the request, you are potentially modifying the contract from the consumer tests!
+
+#### Turning off URL decoding of the paths in the pact file
+
+By default the paths loaded from the pact file will be decoded before the request is sent to the provider. To turn this
+behaviour off, set the system property `pact.verifier.disableUrlPathDecoding` to `true`.
+
+__*Important Note:*__ If you turn off the url path decoding, you need to ensure that the paths in the pact files are 
+correctly encoded. The verifier will not be able to make a request with an invalid encoded path.
+
+### Custom Test Target
+
+It&amp;apos;s possible to use custom `Target`, for that interface `Target` should be implemented and this class can be used instead of `HttpTarget`.
+
+# Verification Reports
+
+The default test behaviour is to display the verification being done to the console, and pass or fail the test via the normal
+JUnit mechanism. Additional reports can be generated from the tests.
+
+## Enabling additional reports via annotations on the test classes
+
+A `@VerificationReports` annotation can be added to any pact test class which will control the verification output. The
+annotation takes a list report types and an optional report directory (defaults to &amp;quot;target/pact/reports&amp;quot;).
+The currently supported report types are `console`, `markdown` and `json`.
+
+For example:
+
+```java
+@VerificationReports({&amp;quot;console&amp;quot;, &amp;quot;markdown&amp;quot;})
+public class MyPactTest {
+```
+
+will enable the markdown report in addition to the normal console output. And,
+
+```java
+@VerificationReports(value = {&amp;quot;markdown&amp;quot;}, reportDir = &amp;quot;/myreports&amp;quot;)
+public class MyPactTest {
+```
+
+will disable the normal console output and write the markdown reports to &amp;quot;/myreports&amp;quot;.
+
+## Enabling additional reports via Java system properties or environment variables
+
+The additional reports can also be enabled with Java System properties or environment variables. The following two
+properties have been introduced: `pact.verification.reports` and `pact.verification.reportDir`.
+
+`pact.verification.reports` is the comma separated list of report types to enable (e.g. `console,json,markdown`).
+`pact.verification.reportDir` is the directory to write reports to (defaults to &amp;quot;target/pact/reports&amp;quot;).
+
+## Additional Reports
+
+The following report types are available in addition to console output (`console`, which is enabled by default):
+`markdown`, `json`.
+
+You can also provide a fully qualified classname as report so custom reports are also supported.
+This class must implement `au.com.dius.pact.provider.reporters.VerifierReporter` interface in order to be correct custom implementation of a report.
+
+# Publishing verification results to a Pact Broker
+
+For pacts that are loaded from a Pact Broker, the results of running the verification can be published back to the
+ broker against the URL for the pact. You will be able to see the result on the Pact Broker home screen. You need to
+ set the version of the provider that is verified using the `pact.provider.version` system property.
+ 
+To enable publishing of results, set the Java system property or environment variable `pact.verifier.publishResults` to `true`.
+
+## Tagging the provider before verification results are published [4.0.1+]
+
+You can have a tag pushed against the provider version before the verification results are published. To do this 
+you need set the `pact.provider.tag` JVM system property to the tag value.
+
+From 4.1.8+, you can specify multiple tags with a comma separated string for the `pact.provider.tag`
+system property.
+
+# Pending Pact Support (version 4.1.3 and later)
+
+If your Pact broker supports pending pacts, you can enable support for that by enabling that on your Pact broker annotation or with JVM system properties. You also need to provide the tags that will be published with your provider&amp;apos;s verification results. The broker will then label any pacts found that don&amp;apos;t have a successful verification result as pending. That way, if they fail verification, the verifier will ignore those failures and not fail the build.
+
+For example, with annotation:
+
+```java
+@Provider(&amp;quot;Activity Service&amp;quot;)
+@PactBroker(host = &amp;quot;test.pactflow.io&amp;quot;, tags = {&amp;quot;test&amp;quot;}, scheme = &amp;quot;https&amp;quot;,
+  enablePendingPacts = &amp;quot;true&amp;quot;,
+  providerTags = &amp;quot;master&amp;quot;
+)
+public class PactJUnitTest {
+```
+
+You can also use the `pactbroker.enablePending` and `pactbroker.providerTags` JVM system properties. 
+
+Then any pending pacts will not cause a build failure.
+
+# Work In Progress (WIP) Pact Support (version 4.1.5 and later)
+
+If your Pact broker supports wip pacts, you can enable support by enabling it on your Pact broker annotation, or with
+JVM system properties. You also need to enable pending pacts. Once enabled, your provider will verify any &amp;quot;work in progress&amp;quot; 
+pacts that have been published since a given date. A WIP pact is a pact that is the latest for its tag that does not have 
+any successful verification results with the provider tag. 
+
+```java
+@Provider(&amp;quot;Activity Service&amp;quot;)
+@PactBroker(host = &amp;quot;test.pactflow.io&amp;quot;, tags = {&amp;quot;test&amp;quot;}, scheme = &amp;quot;https&amp;quot;,
+  enablePendingPacts = &amp;quot;true&amp;quot;,
+  providerTags = &amp;quot;master&amp;quot;
+  includeWipPactsSince = &amp;quot;2020-06-19&amp;quot;
+)
+public class PactJUnitTest {
+```
+
+You can also use the `pactbroker.includeWipPactsSince` JVM system property.
+
+Since all WIP pacts are also pending pacts, failed verifications will not cause a build failure.
+</description>
+  <url>https://github.com/DiUS/pact-jvm</url>
+  <licenses>
+    <license>
+      <name>Apache 2</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>thetrav</id>
+      <name>Travis Dixon</name>
+      <email>the.trav@gmail.com</email>
+    </developer>
+    <developer>
+      <id>rholshausen</id>
+      <name>Ronald Holshausen</name>
+      <email>rholshausen@dius.com.au</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>https://github.com/DiUS/pact-jvm.git</connection>
+    <url>https://github.com/DiUS/pact-jvm</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>fluent-hc</artifactId>
+      <version>4.5.13</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>4.5.13</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jooq</groupId>
+      <artifactId>jool</artifactId>
+      <version>0.9.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.rholder</groupId>
+      <artifactId>guava-retrying</artifactId>
+      <version>2.0.0</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.5.0-b01</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>au.com.dius.pact.provider</groupId>
+      <artifactId>scalasupport_2.13</artifactId>
+      <version>4.2.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>au.com.dius.pact.core</groupId>
+      <artifactId>support</artifactId>
+      <version>4.2.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>au.com.dius.pact</groupId>
+      <artifactId>provider</artifactId>
+      <version>4.2.14</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-stdlib</artifactId>
+      <version>1.4.32</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>1.4.32</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.28</version>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+</project>

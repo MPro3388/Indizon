@@ -1,0 +1,146 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "au.com.dius.pact.provider",
+    "module": "spring",
+    "version": "4.2.14",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "6.8.3",
+      "buildId": "m4qqoikneffwnayeffkuhz2lda"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "au.com.dius.pact.provider",
+          "module": "junit",
+          "version": {
+            "requires": "4.2.14"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-4.2.14.jar",
+          "url": "spring-4.2.14.jar",
+          "size": 66144,
+          "sha512": "72f112b923f1cad32b75cbed34c113690e0e349c230cf77d4a64947a4142ba4597285b81d840f27539ac43eb9094da4f21396fd6b7fc5c0b67e9c4e4e5b4d563",
+          "sha256": "3302cdd50d440dd0e64ad7a095ad592d6c0604a1f1c071801ab9b1dcd7613000",
+          "sha1": "2b3a94955200a1e96068ec2db9a3561190affdee",
+          "md5": "984522b6cd3a200c19196979c80f195c"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 11,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime",
+        "org.jetbrains.kotlin.localToProject": "public",
+        "org.jetbrains.kotlin.platform.type": "jvm"
+      },
+      "dependencies": [
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-stdlib",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.jetbrains.kotlin",
+          "module": "kotlin-reflect",
+          "version": {
+            "requires": "1.4.32"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-test",
+          "version": {
+            "requires": "2.2.5.RELEASE"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-webmvc",
+          "version": {
+            "requires": "5.2.3.RELEASE"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-webflux",
+          "version": {
+            "requires": "5.2.3.RELEASE"
+          }
+        },
+        {
+          "group": "org.springframework",
+          "module": "spring-test",
+          "version": {
+            "requires": "5.2.3.RELEASE"
+          }
+        },
+        {
+          "group": "javax.servlet",
+          "module": "javax.servlet-api",
+          "version": {
+            "requires": "3.1.0"
+          }
+        },
+        {
+          "group": "com.fasterxml.jackson.datatype",
+          "module": "jackson-datatype-joda",
+          "version": {
+            "requires": "2.10.2"
+          }
+        },
+        {
+          "group": "au.com.dius.pact.provider",
+          "module": "junit",
+          "version": {
+            "requires": "4.2.14"
+          }
+        },
+        {
+          "group": "org.synchronoss.cloud",
+          "module": "nio-multipart-parser",
+          "version": {
+            "requires": "1.1.0"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-4.2.14.jar",
+          "url": "spring-4.2.14.jar",
+          "size": 66144,
+          "sha512": "72f112b923f1cad32b75cbed34c113690e0e349c230cf77d4a64947a4142ba4597285b81d840f27539ac43eb9094da4f21396fd6b7fc5c0b67e9c4e4e5b4d563",
+          "sha256": "3302cdd50d440dd0e64ad7a095ad592d6c0604a1f1c071801ab9b1dcd7613000",
+          "sha1": "2b3a94955200a1e96068ec2db9a3561190affdee",
+          "md5": "984522b6cd3a200c19196979c80f195c"
+        }
+      ]
+    }
+  ]
+}
