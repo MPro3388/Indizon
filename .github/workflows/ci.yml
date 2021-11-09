@@ -3,7 +3,11 @@ name: CI
 on: [ push ]
 
 jobs:
+<<<<<<< HEAD
   test:
+=======
+  build:
+>>>>>>> 9ecfbc18a22715ec72046bd485850d6c6a3b4351
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -14,4 +18,8 @@ jobs:
           distribution: "adopt"
           java-version: 16
       - name: clean-build
+<<<<<<< HEAD
           run: ./gradlew clean test --info --stacktrace
+=======
+          run: ./gradlew clean build --info --stacktrace
+>>>>>>> 9ecfbc18a22715ec72046bd485850d6c6a3b4351
