@@ -30,13 +30,13 @@ public class IndizonController {
 
     @RequestMapping(path="/answer/{prodauct}/{price}")
     public String pathParams(@PathVariable("product") String product,
-                             @PathVariable("price") int price){
+                             @PathVariable("price") String price){
         return String.format(" These %s costs %s", product, price);
     }
 
     @RequestMapping(path="/answer")
     public String queryParams(@RequestParam("product") String product,
-                             @RequestParam("price") int price){
+                             @RequestParam("price") String price){
         return String.format(" These %s costs %s", product, price);
     }
 
