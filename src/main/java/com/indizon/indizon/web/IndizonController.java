@@ -60,10 +60,10 @@ public class IndizonController {
         return Map.of("product","Messerschärfer","price","2.99");
     }
 
-    @PostMapping(value="/post", consumes=MediaType.APPLICATION_JSON_VALUE)
+    /*@PostMapping(value="/post", consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public SecurityProperties.User postJson(@RequestBody SecurityProperties.User user){
         logger.info("User", user);
         return user;
-    }
+    }*/
 }
