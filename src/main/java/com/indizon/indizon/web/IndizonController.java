@@ -5,10 +5,14 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import scala.Product;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -25,45 +29,39 @@ public class IndizonController {
         return new ModelAndView("Indizon");
     }
 
-    @RequestMapping("/path/to/resource")
-    public String resource(){return "Here ist my resource";}
 
-    @RequestMapping(path="/answer/{prodauct}/{price}")
-    public String pathParams(@PathVariable("product") String product,
-                             @PathVariable("price") String price){
-        return String.format(" These %s costs %s", product, price);
+
+
+    @GetMapping("/products")
+    public List<Product> getProducts(Product product) {
+
+        List<Product> productList =  service.findAll(product.getName());
+        return productList;
+
     }
 
-    @RequestMapping(path="/answer")
-    public String queryParams(@RequestParam("product") String product,
-                             @RequestParam("price") String price){
-        return String.format(" These %s costs %s", product, price);
-    }
+    @PostMapping("/products")
+    public Product createProduct(@RequestBody Product product)
 
-    @RequestMapping("/header")
-    public String header(@RequestHeader(value="User-Agent") String userAgent){
-        return String.format("User-Agent ist %s", userAgent);
+    {
+        return service.saveProduct(product);
     }
 
 
-    @GetMapping(path="/get418")
-    @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
-    public void getBadRequest() {}
-
-    @GetMapping(path="/get200")
-    @ResponseStatus(HttpStatus.OK)
-    public void getOK() {}
-
-    @GetMapping(value="/get", produces= MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public Map<String, String> getJson() {
-        return Map.of("product","Messerschärfer","price","2.99");
-    }
-
-    /*@PostMapping(value="/post", consumes=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public SecurityProperties.User postJson(@RequestBody SecurityProperties.User user){
-        logger.info("User", user);
-        return user;
-    }*/
+    @RequestMapping(path = "/createproduct", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    public long addNewProduct (@PathVariable("id") long id, @PathVariable("name") String name,
+                               @PathVariable("price") int price) {
+        Product savedproduct = service.saveProduct(new Product(id,name,price));
+
+        logger.info(savedproduct.toString() + " successfully saved into DB");
+
+        return savedproduct.getId();
+    }
+
+    @DeleteMapping("/products/{product}")
+    public void delete(@PathVariable Product product) {
+        service.deleteProduct(product);
+    }
 }
