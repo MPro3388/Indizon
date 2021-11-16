@@ -1,7 +1,7 @@
 package com.indizon.indizon.web;
 
-public class Product {
-    import javax.persistence.*;
+import javax.persistence.*;
+import javax.persistence.*;
 import java.util.Optional;
 
     @Entity

@@ -11,7 +11,7 @@ public class IndiService {
     @Autowired
     ProductRepository productRepository;
 
-    public MyService(){}
+    public IndiService(){}
 
     public List<Product> findAll(String email){
         return productRepository.findAll();

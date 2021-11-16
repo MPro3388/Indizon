@@ -32,13 +32,13 @@ public class IndizonController {
 
 
 
-    @GetMapping("/products")
+    /*@GetMapping("/products")
     public List<Product> getProducts(Product product) {
 
         List<Product> productList =  service.findAll(product.getName());
         return productList;
 
-    }
+    }*/
 
     @PostMapping("/products")
     public Product createProduct(@RequestBody Product product)
@@ -48,7 +48,7 @@ public class IndizonController {
     }
 
 
-    @ResponseBody
+    /*@ResponseBody
     @RequestMapping(path = "/createproduct", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     public long addNewProduct (@PathVariable("id") long id, @PathVariable("name") String name,
@@ -58,7 +58,7 @@ public class IndizonController {
         logger.info(savedproduct.toString() + " successfully saved into DB");
 
         return savedproduct.getId();
-    }
+    }*/
 
     @DeleteMapping("/products/{product}")
     public void delete(@PathVariable Product product) {
