@@ -9,15 +9,17 @@ import java.util.Optional;
     public class Product {
         @Id
         @GeneratedValue(strategy = GenerationType.AUTO)
-
+        @Column(name = "id")
         private Long id;
 
+        @Column(name = "name", nullable = false)
         private String name;
 
-
+        @Column(name="price")
         private int price;
 
-        public Product (){}
+        public Product(Object id, Object name, Object price){}
+
 
         public Product(Long id, String name, int price) {
             this.id = id;

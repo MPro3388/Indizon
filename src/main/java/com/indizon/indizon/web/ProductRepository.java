@@ -17,4 +17,6 @@ public interface ProductRepository {
     void deleteById(Long id);
 
     scala.Product save(scala.Product product);
+
+    Object save(Product product);
 }

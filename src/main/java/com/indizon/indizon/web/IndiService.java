@@ -1,7 +1,8 @@
 package com.indizon.indizon.web;
 
 import org.springframework.stereotype.Service;
-import scala.Product;
+import com.indizon.indizon.web.Product;
+import com.indizon.indizon.web.ProductRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,22 +10,24 @@ import java.util.stream.Collectors;
 @Service
 public class IndiService {
     private final ProductRepository productRepository;
+    private final ProductTransformer productTransformer;
 
-    public IndiService(ProductRepository productRepository){
+    public IndiService(ProductRepository productRepository, ProductTransformer productTransformer){
         this.productRepository = productRepository;
+        this.productTransformer = productTransformer;
     }
 
     public List<Product> findAll(){
 
-        List<Product> product =productRepository.findAll();
+        List<Product> product = productRepository.findAll();
         return product.stream()
                 .collect(Collectors.toList());
     }
 
     public Product create(PersonManipulationRequest request) {
         var product = new Product(request.getId(), request.getName(), request.getPrice());
-        product = productRepository.save(product);
-        return (Product) ProductTransformer.transformEntity(product);
+        product = (Product) productRepository.save(product);
+        return (Product) productTransformer.transformEntity(product);
     }
 
     public Product saveProduct(Product product){
