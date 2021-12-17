@@ -1,18 +1,20 @@
 package com.indizon.indizon.web;
 
+
 import org.springframework.stereotype.Repository;
-import scala.Product;
 
 import java.util.List;
 
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Long>  {
+public interface ProductRepository {
+
+    List<Product> findAllByName(String name);
 
     List<Product> findAll();
 
-    Product findById(long id);
+    boolean existsById(Long id);
 
-    void save(Product product);
+    void deleteById(Long id);
 
-    void delete(Product product);
+    scala.Product save(scala.Product product);
 }

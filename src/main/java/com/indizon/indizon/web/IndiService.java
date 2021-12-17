@@ -1,20 +1,30 @@
 package com.indizon.indizon.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import scala.Product;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Controller
+@Service
 public class IndiService {
-    @Autowired
-    ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
-    public IndiService(){}
+    public IndiService(ProductRepository productRepository){
+        this.productRepository = productRepository;
+    }
 
-    public List<Product> findAll(String email){
-        return productRepository.findAll();
+    public List<Product> findAll(){
+
+        List<Product> product =productRepository.findAll();
+        return product.stream()
+                .collect(Collectors.toList());
+    }
+
+    public Product create(PersonManipulationRequest request) {
+        var product = new Product(request.getId(), request.getName(), request.getPrice());
+        product = productRepository.save(product);
+        return (Product) ProductTransformer.transformEntity(product);
     }
 
     public Product saveProduct(Product product){
@@ -22,7 +32,24 @@ public class IndiService {
         return product;
     }
 
-    public void deleteProduct(Product product){
-        productRepository.delete(product);
+    public boolean deleteById(Long id) {
+        if (!productRepository.existsById(id)) {
+            return false;
+        }
+
+        productRepository.deleteById(id);
+        return true;
+    }
+
+    private class PersonManipulationRequest {
+        public Object getId() {
+            return null;
+        }
+        public Object getName() {
+            return null;
+        }
+        public Object getPrice() {
+            return null;
+        }
     }
 }
